@@ -9,6 +9,7 @@ import FormExclusion from "./form-exclusion";
 import BotonSortear from "./boton-sortear";
 import BotonEliminarParticipante from "./boton-eliminar-participante";
 import BotonEliminarExclusion from "./boton-eliminar-exclusion";
+import BotonEliminarGrupo from "./boton-eliminar-grupo";
 
 export default async function PaginaGrupo({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -279,6 +280,13 @@ export default async function PaginaGrupo({ params }: { params: Promise<{ id: st
           </div>
         )}
       </div>
+
+      {/* Zona peligrosa */}
+      {esOrganizador && (
+        <div className="pt-4 border-t border-[#c1c8c4]/30 flex justify-end">
+          <BotonEliminarGrupo grupoId={id} />
+        </div>
+      )}
     </div>
   );
 }

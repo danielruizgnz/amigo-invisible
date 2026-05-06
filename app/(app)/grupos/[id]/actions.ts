@@ -210,3 +210,20 @@ export async function accionLanzarSorteo(grupoId: string) {
   revalidatePath(`/grupos/${grupoId}`);
   return { ok: true };
 }
+
+export async function accionEliminarGrupo(grupoId: string) {
+  const usuario = await getUsuarioSesion();
+  if (!usuario) redirect("/entrar");
+
+  const { data: grupo } = await supabaseAdmin
+    .from("grupos")
+    .select("organizador_id")
+    .eq("id", grupoId)
+    .single();
+
+  if (grupo?.organizador_id !== usuario.id) return { error: "No tienes permiso." };
+
+  await supabaseAdmin.from("grupos").delete().eq("id", grupoId);
+
+  redirect("/dashboard");
+}
